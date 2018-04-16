@@ -1,164 +1,136 @@
-[![Coverage Status](https://coveralls.io/repos/github/ModusCreateOrg/budgeting-sample-app-webpack2/badge.svg)](https://coveralls.io/github/ModusCreateOrg/budgeting-sample-app-webpack2) [![CircleCI](https://circleci.com/gh/ModusCreateOrg/budgeting-sample-app-webpack2.svg?style=svg)](https://circleci.com/gh/ModusCreateOrg/budgeting-sample-app-webpack2)
+# Modus Create - Budgeting Sample Application - Test Automation Assignment - Doug Major
 
-# Budgeting :: A Modern React, Redux, React Router 4, Webpack Sample App
+## Test Plan
 
-![React, Redux, Router, Webpack, Sass](https://cloud.githubusercontent.com/assets/733074/25338311/193a1a40-28ff-11e7-8f22-9a5d9dac7b84.png)
+### Introduction
+Diving in to the Modus Create Budgeting Sample Application test automation assignment presented me with many new exciting options in determining how to best develop a test plan including a selection of automation tests. My previous software testing background relied mainly on using Java, a small bit of Javascript and Ruby Selenium, Maven, JUnit and Allure for all web application testing. 
 
-Production-ready React + Webpack architecture implemented on consumer web apps of some of the most successful enterprises in the world. Perceived performance and development experience are key factors in this setup. You can use this code base for learning or to scaffold your mission-critical project.
+To meet the requirements (e.g. no Java) for this project, I decided to challenge myself by using Javascript for writing the tests, along with implementing the Node.js tool [TestCafe](http://devexpress.github.io/testcafe/) as my end-to-end web-based testing framework. My reasoning behind selecting TestCafe over a Selenium-driven framework for this assignment was based on the following:
 
-[See live demo](https://budgeting-a937b.firebaseapp.com/).
+* Easy installation and doesn't require WebDriver, ready to run tests after `npm install -g testcafe` (thus no additional installs/configuration/maintenance of plugins, libraries, dependencies, products etc.).
+* It's built on top of Node.js, which I have more familiarity with, and runs tests quickly in real browsers.
+* There's a bit more stability than Selenium, as it automatically waits for page loads and XHR requests, and I'm very happy with the async/wait JS ES2017 feature along with the smart test actions and assertions that wait for page elements to appear.
+* The TestCafe API library is clear, concise and offers many possibilities, including full-featured front-end framework-specific libraries of selectors for testing web applications.
+* While the features include CI, reporters, concurrent testing and solid debug reporting, there's a growing ecosystem of developers creating custom plugins and extensions that give great enthusiasm. 
 
-![React Budgeting App](https://cloud.githubusercontent.com/assets/733074/25340900/6ab1d536-2907-11e7-8083-b78f8ae601b4.png)
+### Project Background
+The Modus Create Budgeting Sample Application is a contemporary React web application that offers users the ability to enter and track their income and expenses. Additionally, it enables the user with a feature to graphically view all financial activity 'Inflow vs Outflow' and drill down into their 'Spending by Category' with visual bar graphs and pie chart representations of the items entered in on the 'Budget' view.
 
-## Budgeting Application
-The is a simple budget management application. It tracks inflow and outflow, shows remaining budget, and interesting reports with charts. As such, it offers more features than the usual Todo App. 
+### Objectives and Tasks
+For the purposes of this assignment, the ultimate goal is to devise a scalable end-to-end test suite that mimics what and how a user would interact with the web application delivering successful expected results. This includes the way in which the application launches, responds to user input and validation that subsequent-displayed data is correct across both the 'Budget' and 'Reports' features.
 
-Budgeting app is a showcase project that demonstrates important decisions in architecture and development of a modern React application.
+### Scope 
+At a high level, for this product release version, the automation testing scope for this project is the to test all features available to the end user within the 'Budget' and 'Reports' views of the application. The test suite here allows coverage of the application that unit tests and integration test do not cover. The benefits are that the application test suite can be run as frequently as possible, allows timely developer code push and production deployment releases with deeper trust. Lastly, this testing will catch errors missed during manual, unit and integration testing. 
 
-Feel free to use it as a reference app or a starter kit.
+### Features to be tested
+The user input field in the application consists of eight main areas to test, where a user will interact with the application. Since the application only allows a user to 'Add' an item, not remove or edit, and the positive or negative 'Value' entered is predetermined by the 
+Category selection (e.g. Income is fixed to a positive numerical value, while all other categories are fixed to a negative numerical value), automating a user's behavior is a bit more straightforward. 
+The eight key areas are: 
+1. Main launch page / clickable Budget button 
+2. Category drop-down selection
+3. Description entry field
+4. Amount entry field
+5. Clickable and Return-key Add button
+6. Clickable Reports button
+7. Clickable Spending by Category tab
+8. Clickable Inflow vs Outflow tab
 
-## Key concepts:
+The application also features graphic and numerical data displays on the 'Budget' and 'Reports' views of the application that will require verification/comparison testing to ensure that the entered data, of text and dollar amounts entered into the 'Budget' inputs correctly persist across both views.
+This includes: 
+1. The 'Working Balance' numerical display on the bottom of the 'Budget Page'
+2. The 'Inflow vs Outflow' bar graphs on the 'Reports' view
+3. The 'Spending by Category' pie charts on the 'Reports' view
 
-- [x] [Webpack 3 Tree shaking](http://moduscreate.com/webpack-2-tree-shaking-configuration/)
-- [x] [PRPL pattern](https://www.slideshare.net/grgur/prpl-pattern-with-webpack-and-react) with minimal application core
-- [x] Automatic code splitting with React Router 4 and `import()` statement
-- [x] Automatic common chunk bundling
-- [x] CSS modules
-- [x] Snapshot testing with Jest
-- [x] Flow static typing. Check out this [guide to using Flow in the project](https://github.com/ModusCreateOrg/budgeting-sample-app-webpack2/blob/master/docs/flow.md).
-- [x] Performance budgets in Webpack 3
-- [x] React 16 Error Boundaries
+### Item Pass/Fail Criteria
+The defined success criteria ('Pass') of each item/feature relies on the test case strictly meeting the expected outcome. For this product, each test case has a clear identification of criteria required to deduce a 'Pass' or 'Fail'. The criteria can be further defined by three areas for the testing of this application:
+1. Suspension - any scenario which causes a blocker to continue the automation testing.
+* This could be due to issues within the environment (local and development configuration), server, browser, version release and test harness.
+* An example specific to this application is where automation testing fails due to an external browser issue (e.g. the latest Chrome release triggers issue/test failure when launching the application on [localhost:3000](http://localhost:3000) due to a new browser feature or as mentioned in the product notes because localhost not on https/SSL.
+2. Resumption - As in the Chrome browser example scenario above, where the test automation suspension occurred due to a new feature that blocked the successful automation application launch, the issue is identified, automation test code or command is updated, then testing may resume. 
+* An example in identifying the test case failure issue, parallel browser test execution would be a strong and timely tactic to resolve the automation blocker
+* During the development of my automated test scenarios for this application, I discovered that the local Chrome tests were not consistently passing. Running the tests in parallel, across multiple browsers yielded results that showed the test in question passing locally in Firefox and Safari, but not in Chrome. This documented in the Environmental Requirements below, but it led to running the automation testing file command that included a skip Javsascript web page error option to pass the test.
+3. Approval - the scenario in which each test has met the expected outcome defined in the test case, after re-running the test suite. For this application approval occurred in the Chrome example after resuming the test suite with Chrome tests passing. 
 
-## Performance
-![Budgeting App Performance](https://cloud.githubusercontent.com/assets/733074/25339194/1af94448-2902-11e7-8982-c1a9b647fac0.png)
-_The app loads in 1 second on 3G, cache disabled_
+### Test Cases / Proof of Concept
+The individual test cases below are a set of automate-able tests that will yield the general application and user-behavior results.
 
-Budgeting app is **blazing fast**, thanks to the smart architecture and Webpack 3 configuration. It takes about 1000ms (1s) to load on 3G (see above).
+| Test Case                                                             | Expected Outcome                               | Result    |    
+| --------------------------------------------------------------------- | ---------------------------------------------- | ----------|        
+| TC01 - Launch Application via localhost:3000                          | Application should successfully launch         | Pass/Fail |
+|                                                                       | in browser(s) selected                         |           |
+| TC02 - Verify that the main/home 'Budget' view basic                  | All expected columns, column text, text entry  | Pass/Fail | 
+| elements are present on page                                          | fields are present                             |           |
+| TC03 - Verify that all expected images exist on the 'Budget'          | Modus Create svg logo, is present on both views| Pass/Fail |   
+| and 'Reports' views                                                   |                                                |           |
+| TC04 - Verify that description column contains                        | Placeholder description items are present      | Pass/Fail |       
+| specific item names                                                   | (e.g.'Gas', 'Paycheck', 'Trader Joe's food')   |           |      
+| TC05 - Click 'Reports' button for verification that                   | 'Inflow vs Outflow' and 'Spending by Category' | Pass/Fail |
+| 'Inflow vs Outflow' and 'Spending by Category' views are present      | exist and display the correct text fields      |           |
+| TC06 - Verify that the 'Inflow vs Outflow' bar graphs are present     | 'Inflow vs Outflow' bar graphs are displaying  | Pass/Fail |
+| on the 'Reports' page                                                 |                                                |           | 
+| TC07 - Click and verify that the 'Spending by Category' pie chart     | 'Spending by Category pie chart is displaying' | Pass/Fail |
+| is present on the 'Reports' page                                      |                                                |           |
+| TC08 - Click the 'Budget' tab, then click the 'Category' drop-down    | 'Category' drop-down give the user 17 options  | Pass/Fail |
+| button and verify that there are 17 options available                 | to select                                      |           |
+| TC09 - Click on 'Category' drop-down and select option 15 'Income',   | A new item 'Paycheck' is created displaying in | Pass/Fail |
+| then click in to the 'Description' field, enter text 'Paycheck', next | the 'Description' column, with the 'Amount'    |           |
+| click in to Value field and enter '4000', then click the Add button   | '$4,000' populating the Amount column          |           |
+|                                                                       | Additionally, 'Total Inflow' - 'Total Outflow' |           |  
+|                                                                       | = 'Working Balance' is verified and updated    |           | 
+|                                                                       | with a positive numerical value increase       |           |        | TC10 - Click on 'Category' drop-down and select option 6 'Travel',    | A new item 'Colombia' is created displaying in | Pass/Fail |
+| then click in to the 'Decscription' field, enter text 'Colombia', next| the 'Description' column, with the 'Amount'    |           |        | click in to Value field and enter '7000', then click Add button       | '-$7,000' populating the Amount column         |           |
+|                                                                       | Additionally, 'Total Inflow' - 'Total Outflow' |           |
+|                                                                       | = 'Working Balance' is verified and updated    |           |
+|                                                                       | with a negative numerical value decrease       |           |    
+| TC11 - Repeat TC09 and TC10 with various generated Text and Numerical | All added items are present with the correct   |           |
+| values for example 'Category' item in the drop-down                   | text, numerical value and 'Working Balance'    |           |
+|                                                                       | correctly reflects the change in item Inflow   |           |
+|                                                                       | and Outflow values (postive or negative)       |           |
+| TC12 - Click on 'Reports' tab and verify that the newly added items   | Numerical values should compare and equal      | Pass/Fail |
+| in the 'Budget' view are correctly represented in 'Inflow vs Outflow' | those created in 'Budget' view, newly added    |           |
+|                                                                       | items have Category text updated, values       |           |
+|                                                                       | updated and the bar graph is updated including |           |
+|                                                                       | Inflow/Outflow values                          |           |
+| TC13 - Click on the 'Spending by Category' tab under 'Reports' tab and| Numerical values should compare and equal      | Pass/Fail |
+| verify that newly added items in the 'Budget' view are correctly      | those created in 'Budget' view, newly added    |           |
+| represented in 'Spending by Category'                                 | items have Category text updated, values       |           |
+|                                                                       | updated and the pie chart is updated           |           |                                                                                           
 
-![Alex Russel Test](https://cloud.githubusercontent.com/assets/733074/25586449/acf14628-2e9f-11e7-8839-2f7c20809581.png)
-_Emerging Markets 3G Filmstrip_
+### Environmental Requirements
+Below are the detailed steps/specifications, tools and commands for replicating my selected automation tests on the Budgeting Sample Application.
 
-The [aggressive test](https://www.webpagetest.org/video/compare.php?tests=170501_0S_XQ5-r:2-c:0) above shows the budgeting app loads in under 5 seconds. It's a heavily limited connection that accounts for poor connectivity and limited bandwidth. 
+* Clone and build my repo version of the Budget Sample Application [modusCreate-QA-automation-project]() that contains the `e2e` folder with a selection of my test scripts to run against the application.
 
-![Waterfall](https://cloud.githubusercontent.com/assets/733074/25586623/676a378a-2ea0-11e7-9342-c040751b6ec6.png)
+* My browser and hardware environment for this project: Chrome 65.0.3325 / Mac OS X 10.13.4
 
-All important (aka critical path) assets are loaded as early as possible, while the others (e.g. images or GitHub buttons) will load after the first render.
+* Navigate to the locally saved project directory of the modusCreate-QA-automation-project, and into the `e2e` folder.
 
-#### How did we get that performance?
+* Ensure that [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) are installed and/or updated to the latest versions.
 
-1. **Minimal application core.** We decided to ditch the usual convention of creating a vendor chunk. Instead, it's bundled in the app core. The app core is actually very small, containing just the code needed to bootstrap the app.
-2. **Common code is a chunk.** We let Webpack figure out which bundles we reuse in chunks and create a common chunk that's also asyncronous. 
-3. **Redux module injection**. Each chunk contains respective views _and_ redux modules. Yes, that means reducers, action creators, actions - are all dynamically injected as we navigate through routes. That adds to the _minimal application core_ concept and PRPL pattern. 
-4. **H2 Push.** The app is hosted on Firebase and we use the magic of _HTTP2 Push_ to push some of the scripts before they are requested.
-5. **Pre-caching**. Service Workers pre-cache resources so the browser can access them as soon as the user needs to.
+* Install TestCafe on the command line: 
+`npm install -g testcafe`
 
-## Charts
-Charts are developed using the awesome D3 library. The idea behind showing charts is not only to show beautiful content, but also to demonstrate keeping heavy content in a chunk that owns it. In other words - we show how applications can run fast even if they use larger libraries.
+* Install the TestCafe React plugin:
+`$ npm install testcafe-react-selectors`
 
-D3 is used in the `/reports` route only. Given that major routes are separate chunks (code splitting FTW!), the entire D3 library is bundled with the code that needs it. That makes the `/reports` route a bit heavier than the initial `/budget` route, but it also makes routes much faster to load.
+* Start up the previously built application:
+`npm run serve` to serve the app on [localhost:3000](http://localhost:3000)
 
-## Performance Budgets
-We are looking to maintain the lightest possible application core (_aka entry chunk_). Our target is 300kB for the entrypoint and 300kB for all other assets. This is how we set it in [webpack configuration](https://github.com/ModusCreateOrg/budgeting-sample-app-webpack2/blob/master/webpack.config.js):
+* Open a new terminal tab or command line.
 
-```js
-performance: {
-  maxAssetSize: 300000,
-  maxEntrypointSize: 300000,
-  hints: 'warning',
-},
-```
+* The Chrome potential known automation issue execution (as mentioned above in the Pass/Fail Criteria section) with TestCafe can sometimes require that you run my automation test script with following suffix:
+`--skip-js-errors`
 
-Adding lots of extra code to the entry chunk might cause the build (`yarn run build`) process to show a warning.
+* Enter and run the following on the command line (Chrome can be subbed out for Firefox, Safari etc.):
+`testcafe chrome doug-major-moduscreate-qa-automation-tests.js --skip-js-errors`
 
-![Performance Budgets](https://cloud.githubusercontent.com/assets/733074/25352700/3ade5cfa-292d-11e7-8d2e-fed88c2c4da0.png)
+* TestCafe should launch Chrome, [localhost:3000](http://localhost:3000), and the automation tests should run successfully.
 
-_Simulated size warning_
+* Command line output should return each test in the suite where 1 of the 5 automation tests will fail (Test #2 as detailed in the commented-out explanation above the test code). All other tests should pass successfully. 
 
-Note that running webpack dev server in production mode (`yarn run prod`) will trigger this warning because of the additional dev server code injected in the app. This code will not show in regular production builds.
 
-## Service Workers
-Service workers are enabled only when serving static files, not through webpack-dev-server. Here's how you can test service worker functionality:
-1. Run `yarn run build` (or `npm run build`) to build the app
-2. Run `yarn run serve` (or `npm run serve`) to serve the app on [localhost:3000](http://localhost:3000)
-3. Run a new instance of Chrome with disabled security (because localhost is not on https): 
+#### Other potential dependencies and/or errors known that can affect the automation test script to fail to execute:
+* According to the [Node.js documentation3](https://nodejs.org/api/modules.html#modules_addenda_package_manager_tips), if you are using require in the `doug-major-moduscreate-qa-automation-tests.js` file, the testcafemodule should be in the node_modules folder. Please note that this does not apply to the fs module, because it's a build-in Node.js module.  
 
-**OS X**
-
-```bash
-open -a "Google Chrome" --args --user-data-dir=/tmp/unsafe --unsafely-treat-insecure-origin-as-secure=http://localhost
-```
-
-**Linux**
-
-```bash
-/path/to/chrome --user-data-dir=/tmp/unsafe --unsafely-treat-insecure-origin-as-secure=http://localhost
-```
-
-**Windows**
-
-```bash
-chrome.exe --user-data-dir=c:\temp --unsafely-treat-insecure-origin-as-secure=http://localhost
-```
-
-4. Now you can observe network traffic in the Network tab or SW activity in Application > Service Workers in Developer Tools
-
-## Stack
-The app was built using these aweseome technologies
-
-- [x] [Webpack 3.5](https://webpack.github.io)
-- [x] [React 16.x](https://facebook.github.io/react/)
-- [x] [Redux 3.7](http://redux.js.org/)
-- [x] [React Router 4](https://reacttraining.com/react-router/)
-- [x] [Reselect](https://github.com/reactjs/reselect/)
-- [x] [Babel](https://babeljs.io/)
-- [x] [Prettier](https://github.com/prettier/prettier)
-- [x] [Jest](https://facebook.github.io/jest/)
-- [x] [Flow](https://flow.org/en/)
-- [x] [Yarn](https://yarnpkg.com/en/)
-- [x] [Ducks](https://github.com/erikras/ducks-modular-redux/) 🐣
-- [x] [Sass](http://sass-lang.com/)
-- [x] [Autoprefixer](https://github.com/postcss/autoprefixer)
-- [x] [D3](https://d3js.org/)
-
-## Yarn Scripts
-
-* `yarn` - install dependencies
-* `yarn start` - run development server
-* `yarn run prod` - run production server
-* `yarn run build` - build app for deployment
-* `yarn run serve` - serve previously built app using pushstate server
-* `yarn run lint` - lint check
-* `yarn run lint:fix` - lint check + autofixes + prettify code with __prettier__
-* `yarn run test` - run test suite
-* `yarn run test:fix` - run test suite watching files for changes
-* `yarn run flow` - run flow type checking
-* `yarn run update-types` - update flow library definitions
-
-## NPM Scripts
-Similar to Yarn, really...
-
-* `npm install` - install dependencies
-* `npm start` - run development server
-* `npm run prod` - run production server
-* `npm run build` - build app for deployment
-* `npm run serve` - serve previously built app using pushstate server
-* `npm run lint` - lint check
-* `npm run lint:fix` - lint check + autofixes + prettify code with __prettier__
-* `npm run test` - run test suite
-* `npm run test:fix` - run test suite watching files for changes
-* `npm run flow` - run flow type checking
-* `npm run update-types` - update flow library definitions
-
-## Honorary Mentions
-
-* Thanks to [React experts at Modus Create](https://moduscreate.com), particularly [Tim Eagan](https://twitter.com/TimothyEagan), [Jason Malfatto](https://twitter.com/jmalfatto), [Brice Mason](https://twitter.com/bricemason), and [Esteban Las](https://twitter.com/elas78) for infinite amounts of experience poured into this app
-* Kudos to [Andrea Grisogono](https://twitter.com/scrumolina) who Scrumorganized the team
-* Thanks to community contributors who helped with code and screamed about issues. Yeah, we really do appreciate all the screaming. 
-* [Addy Osmani](https://twitter.com/addyosmani) and [Sam Saccone](https://twitter.com/samccone) who helped with the PRPL pattern
-* [Sean T Larkin](https://twitter.com/thelarkinn) who helped with Webpack wizardry
-
-## Want more?
-This project is maintained by [Modus Create](https://moduscreate.com). Fantastic React apps are in our DNA so give us a buzz if we can help with your awesome project.
-
-## License
-[MIT](License.md)
+As such, use a locally installed TestCafe version and type the following [command6](https://docs.npmjs.com/cli/link) in your project folder: 
+`npm link testcafe`

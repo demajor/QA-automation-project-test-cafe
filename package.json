@@ -92,6 +92,8 @@
     "react-router-dom": "^4.2.0",
     "redux": "3.7.2",
     "redux-thunk": "2.2.0",
-    "reselect": "^3.0.1"
+    "reselect": "^3.0.1",
+    "testcafe-react-selectors": "^2.0.0",
+    "testcafe-reporter-html-testrail": "^2.0.0"
   }
 }
