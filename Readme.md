@@ -1,9 +1,9 @@
-# Modus Create - Budgeting Sample Application - Test Automation Assignment - Doug Major
+# QA test automation project using TestCafe on a basic budgeting web application
 
 ## Test Plan
 
 ### Introduction
-Diving in to the Modus Create Budgeting Sample Application test automation assignment presented me with many new exciting options in determining how to best develop a test plan including a selection of automation tests. My previous software testing background relied mainly on using Java, a small bit of Javascript and Ruby Selenium, Maven, JUnit and Allure for all web application testing. 
+Diving in to this Budgeting Sample Application test automation assignment presented me with many new exciting options in determining how to best develop a test plan including a selection of automation tests. My previous software testing background relied mainly on using Java, a small bit of Javascript and Ruby Selenium, Maven, JUnit and Allure for all web application testing. 
 
 To meet the requirements (e.g. no Java) for this project, I decided to challenge myself by using Javascript for writing the tests, along with implementing the Node.js tool [TestCafe](http://devexpress.github.io/testcafe/) as my end-to-end web-based testing framework. My reasoning behind selecting TestCafe over a Selenium-driven framework for this assignment was based on the following:
 
@@ -14,7 +14,7 @@ To meet the requirements (e.g. no Java) for this project, I decided to challenge
 * While the features include CI, reporters, concurrent testing and solid debug reporting, there's a growing ecosystem of developers creating custom plugins and extensions that give great enthusiasm. 
 
 ### Project Background
-The Modus Create Budgeting Sample Application is a contemporary React web application that offers users the ability to enter and track their income and expenses. Additionally, it enables the user with a feature to graphically view all financial activity 'Inflow vs Outflow' and drill down into their 'Spending by Category' with visual bar graphs and pie chart representations of the items entered in on the 'Budget' view.
+This Budgeting Sample Application is a contemporary React web application that offers users the ability to enter and track their income and expenses. Additionally, it enables the user with a feature to graphically view all financial activity 'Inflow vs Outflow' and drill down into their 'Spending by Category' with visual bar graphs and pie chart representations of the items entered in on the 'Budget' view.
 
 ### Objectives and Tasks
 For the purposes of this assignment, the ultimate goal is to devise a scalable end-to-end test suite that mimics what and how a user would interact with the web application delivering successful expected results. This includes the way in which the application launches, responds to user input and validation that subsequent-displayed data is correct across both the 'Budget' and 'Reports' features.
@@ -60,7 +60,7 @@ The individual test cases below are a set of automate-able tests that will yield
 |                                                                       | in browser(s) selected                         |           |
 | TC02 - Verify that the main/home 'Budget' view basic                  | All expected columns, column text, text entry  | Pass/Fail | 
 | elements are present on page                                          | fields are present                             |           |
-| TC03 - Verify that all expected images exist on the 'Budget'          | Modus Create svg logo, is present on both views| Pass/Fail |   
+| TC03 - Verify that all expected images exist on the 'Budget'          | Org svg logo, is present on both views| Pass/Fail |   
 | and 'Reports' views                                                   |                                                |           |
 | TC04 - Verify that description column contains                        | Placeholder description items are present      | Pass/Fail |       
 | specific item names                                                   | (e.g.'Gas', 'Paycheck', 'Trader Joe's food')   |           |      
@@ -99,7 +99,7 @@ The individual test cases below are a set of automate-able tests that will yield
 ### Environmental Requirements
 Below are the detailed steps/specifications, tools and commands for replicating my selected automation tests on the Budgeting Sample Application.
 
-* Clone and build my repo version of the Budget Sample Application [modusCreate-QA-automation-project]() that contains the `e2e` folder with a selection of my test scripts to run against the application.
+* Clone and build my repo version of the Budget Sample Application [QA-automation-project-test-cafe]() that contains the `e2e` folder with a selection of my test scripts to run against the application.
 
 * My browser and hardware environment for this project: Chrome 65.0.3325 / Mac OS X 10.13.4
 
